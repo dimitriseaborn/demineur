@@ -3,12 +3,62 @@
  */
 package demineur;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class App {
+
+    public static JFrame mainWindow = new JFrame("Démineur");
+    
+
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        
+        // Set cross-platform Java L&F (also called "Metal")
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // schedule this for the event dispatch thread (edt)
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+
+                //innit components
+                mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                mainWindow.setSize(600, 600);
+                mainWindow.setVisible(true);
+
+
+                displayMainWindow();
+
+            }
+        });
+    }
+
+    public static void displayMainWindow() {
+
+        mainWindow.setContentPane(new MainMenuPanel());
+        mainWindow.revalidate();
+        mainWindow.repaint();
+
+    }
+    
+    public static void displaySettingsWindow() {
+        
+        mainWindow.setContentPane(new SettingsPanel());
+        mainWindow.revalidate();
+        mainWindow.repaint();
+
     }
 }
