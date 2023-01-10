@@ -5,6 +5,7 @@ package demineur;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -15,11 +16,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class App {
 
     public static JFrame mainWindow = new JFrame("Démineur");
-    
-
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
         
@@ -37,6 +33,7 @@ public class App {
                 //innit components
                 mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 mainWindow.setSize(600, 600);
+                mainWindow.setMinimumSize(new Dimension(500, 500));
                 mainWindow.setVisible(true);
 
 

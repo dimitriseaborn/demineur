@@ -4,6 +4,11 @@
  */
 package demineur;
 
+import java.awt.GraphicsEnvironment;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+
 /**
  *
  * @author dimitriseaborn
@@ -30,6 +35,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         titlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         buttonsPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         backButton = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
@@ -53,6 +59,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         sizeYLabel = new javax.swing.JLabel();
         sizeYSelector = new javax.swing.JSpinner();
         mineNumberLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         mineNumberSelector = new javax.swing.JSpinner();
 
         setMinimumSize(new java.awt.Dimension(500, 400));
@@ -66,7 +73,9 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         buttonsPanel.setMinimumSize(new java.awt.Dimension(500, 400));
         buttonsPanel.setPreferredSize(new java.awt.Dimension(500, 400));
-        buttonsPanel.setLayout(new java.awt.GridLayout(6, 4, 25, 25));
+        buttonsPanel.setLayout(new java.awt.GridLayout(5, 4, 25, 25));
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(72, 23));
 
         backButton.setText("Retour");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +83,9 @@ public class SettingsPanel extends javax.swing.JPanel {
                 backButtonActionPerformed(evt);
             }
         });
-        buttonsPanel.add(backButton);
+        jPanel1.add(backButton);
+
+        buttonsPanel.add(jPanel1);
         buttonsPanel.add(filler2);
         buttonsPanel.add(filler3);
         buttonsPanel.add(filler4);
@@ -108,6 +119,11 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(dificultyLabel);
 
         dificultySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facile", "Moyen", "Difficile", "Personalisé" }));
+        dificultySelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dificultySelectorActionPerformed(evt);
+            }
+        });
         buttonsPanel.add(dificultySelector);
         buttonsPanel.add(filler11);
 
@@ -115,16 +131,22 @@ public class SettingsPanel extends javax.swing.JPanel {
         sizeLabel.setText("Dimensions");
         buttonsPanel.add(sizeLabel);
 
-        sizeSelectorPanel.setLayout(new java.awt.GridLayout(2, 2));
+        sizeSelectorPanel.setLayout(new java.awt.GridLayout(2, 2, 0, 5));
 
         sizeXLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sizeXLabel.setText("x");
         sizeSelectorPanel.add(sizeXLabel);
+
+        sizeXSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        sizeXSelector.setEnabled(false);
         sizeSelectorPanel.add(sizeXSelector);
 
         sizeYLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sizeYLabel.setText("y");
         sizeSelectorPanel.add(sizeYLabel);
+
+        sizeYSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        sizeYSelector.setEnabled(false);
         sizeSelectorPanel.add(sizeYSelector);
 
         buttonsPanel.add(sizeSelectorPanel);
@@ -133,19 +155,67 @@ public class SettingsPanel extends javax.swing.JPanel {
         mineNumberLabel.setText("Nombre de mine");
         buttonsPanel.add(mineNumberLabel);
 
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        mineNumberSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         mineNumberSelector.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        buttonsPanel.add(mineNumberSelector);
+        mineNumberSelector.setEnabled(false);
+        jPanel2.add(mineNumberSelector, new java.awt.GridBagConstraints());
+
+        buttonsPanel.add(jPanel2);
 
         add(buttonsPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
-        System.out.println("settings");
+        switch (displayButton.getText()) {
+            case "Plein écran":
+                displayButton.setText("Fenêtre");
+                GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(null);
+                App.mainWindow.setSize(600, 500);
+                break;
+            case "Fenêtre":
+                displayButton.setText("Plein écran");
+                GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(App.mainWindow);
+                break;
+        }
     }//GEN-LAST:event_displayButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         App.displayMainWindow();
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void dificultySelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dificultySelectorActionPerformed
+        String selectedDifficulty = dificultySelector.getSelectedItem().toString();
+        if (selectedDifficulty == "Personalisé") {
+            sizeXSelector.setEnabled(true);
+            sizeYSelector.setEnabled(true);
+            mineNumberSelector.setEnabled(true);
+        } else {
+            sizeXSelector.setEnabled(false);
+            sizeYSelector.setEnabled(false);
+            mineNumberSelector.setEnabled(false);
+        }
+        
+        switch (selectedDifficulty) {
+            //TODO: tweak those values with playtesting
+            case "Facile":
+                sizeXSelector.setValue(10);
+                sizeYSelector.setValue(10);
+                mineNumberSelector.setValue(15);
+                break;
+            case "Moyen":
+                sizeXSelector.setValue(15);
+                sizeYSelector.setValue(12);
+                mineNumberSelector.setValue(25);
+                break;
+            case "Difficile":
+                sizeXSelector.setValue(20);
+                sizeYSelector.setValue(17);
+                mineNumberSelector.setValue(75);
+                break;
+        }
+    }//GEN-LAST:event_dificultySelectorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -168,6 +238,8 @@ public class SettingsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel gamemodeLabel;
     private javax.swing.JComboBox<String> gamemodeSelector;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel mineNumberLabel;
     private javax.swing.JSpinner mineNumberSelector;
     private javax.swing.JLabel sizeLabel;
