@@ -6,6 +6,7 @@ package demineur;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -14,6 +15,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
+    private static SettingsPanel settingsPanel;
+    private static MainMenuPanel mainMenuPanel;
 
     public static JFrame mainWindow = new JFrame("Démineur");
 
@@ -26,14 +29,25 @@ public class App {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        mainMenuPanel = new MainMenuPanel();
+        settingsPanel = new SettingsPanel();
+        
         // schedule this for the event dispatch thread (edt)
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
 
                 //innit components
                 mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                mainWindow.setSize(600, 600);
                 mainWindow.setMinimumSize(new Dimension(500, 500));
+                //set fullscreen if last saved
+                if ("Plein écran".equals(settingsPanel.settings.get("displayMode", "Fenêtre"))) {
+                    System.out.println("flscrn");
+                    GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(mainWindow);
+                } else {
+                    System.out.println("windwd");
+                    mainWindow.pack();
+                }
                 mainWindow.setVisible(true);
 
 
@@ -45,7 +59,7 @@ public class App {
 
     public static void displayMainWindow() {
 
-        mainWindow.setContentPane(new MainMenuPanel());
+        mainWindow.setContentPane(mainMenuPanel);
         mainWindow.revalidate();
         mainWindow.repaint();
 
@@ -53,7 +67,7 @@ public class App {
     
     public static void displaySettingsWindow() {
         
-        mainWindow.setContentPane(new SettingsPanel());
+        mainWindow.setContentPane(settingsPanel);
         mainWindow.revalidate();
         mainWindow.repaint();
 
