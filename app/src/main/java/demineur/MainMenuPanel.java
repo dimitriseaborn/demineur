@@ -98,7 +98,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        System.out.println("play");
+        App.displayGameWindow(App.settings.getInt("sizeX", 10), App.settings.getInt("sizeY", 10), App.settings.getInt("mines", 15));
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed

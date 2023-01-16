@@ -16,13 +16,10 @@ import java.util.prefs.Preferences;
  */
 public class SettingsPanel extends javax.swing.JPanel {
 
-    public Preferences settings;
-
     /**
      * Creates new form SettingsPanel
      */
     public SettingsPanel() {
-        loadSettings();
         initComponents();
     }
 
@@ -105,7 +102,7 @@ public class SettingsPanel extends javax.swing.JPanel {
                 gamemodeSelectorActionPerformed(evt);
             }
         });
-        gamemodeSelector.setSelectedItem(settings.get("gamemode", "Classique"));
+        gamemodeSelector.setSelectedItem(App.settings.get("gamemode", "Classique"));
         buttonsPanel.add(gamemodeSelector);
         buttonsPanel.add(filler6);
         buttonsPanel.add(filler7);
@@ -115,7 +112,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(displayLabel);
 
         displayButton.setText("Fenêtre");
-        displayButton.setLabel(settings.get("displayMode", "Fenêtre")
+        displayButton.setLabel(App.settings.get("displayMode", "Fenêtre")
         );
         displayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,7 +133,7 @@ public class SettingsPanel extends javax.swing.JPanel {
                 dificultySelectorActionPerformed(evt);
             }
         });
-        dificultySelector.setSelectedItem(settings.get("difficulty", "Facile"));
+        dificultySelector.setSelectedItem(App.settings.get("difficulty", "Facile"));
         buttonsPanel.add(dificultySelector);
         buttonsPanel.add(filler11);
 
@@ -151,9 +148,15 @@ public class SettingsPanel extends javax.swing.JPanel {
         sizeSelectorPanel.add(sizeXLabel);
 
         sizeXSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        sizeXSelector.setEnabled(false);
-        sizeXSelector.setValue(settings.getInt("sizeX", 10)
+        sizeXSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé")
         );
+        sizeXSelector.setValue(App.settings.getInt("sizeX", 10)
+        );
+        sizeXSelector.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sizeXSelectorStateChanged(evt);
+            }
+        });
         sizeSelectorPanel.add(sizeXSelector);
 
         sizeYLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -161,9 +164,14 @@ public class SettingsPanel extends javax.swing.JPanel {
         sizeSelectorPanel.add(sizeYLabel);
 
         sizeYSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        sizeYSelector.setEnabled(false);
-        sizeYSelector.setValue(settings.getInt("sizeY", 10)
+        sizeYSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé"));
+        sizeYSelector.setValue(App.settings.getInt("sizeY", 10)
         );
+        sizeYSelector.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sizeYSelectorStateChanged(evt);
+            }
+        });
         sizeSelectorPanel.add(sizeYSelector);
 
         buttonsPanel.add(sizeSelectorPanel);
@@ -176,9 +184,14 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         mineNumberSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         mineNumberSelector.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        mineNumberSelector.setEnabled(false);
-        mineNumberSelector.setValue(settings.getInt("mines", 15)
+        mineNumberSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé"));
+        mineNumberSelector.setValue(App.settings.getInt("mines", 15)
         );
+        mineNumberSelector.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                mineNumberSelectorStateChanged(evt);
+            }
+        });
         jPanel2.add(mineNumberSelector, new java.awt.GridBagConstraints());
 
         buttonsPanel.add(jPanel2);
@@ -189,7 +202,7 @@ public class SettingsPanel extends javax.swing.JPanel {
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
         switch (displayButton.getText()) {
             case "Plein écran":
-                settings.put("displayMode", "Fenêtre");
+                App.settings.put("displayMode", "Fenêtre");
                 displayButton.setText("Fenêtre");
                 GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(null);
                 // Add a delay because otherwise the comportement seems unstable
@@ -204,7 +217,7 @@ public class SettingsPanel extends javax.swing.JPanel {
                 break;
 
             case "Fenêtre":
-                settings.put("displayMode", "Plein écran");
+                App.settings.put("displayMode", "Plein écran");
                 displayButton.setText("Plein écran");
                 GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(App.mainWindow);
                 break;
@@ -221,7 +234,7 @@ public class SettingsPanel extends javax.swing.JPanel {
             sizeXSelector.setEnabled(true);
             sizeYSelector.setEnabled(true);
             mineNumberSelector.setEnabled(true);
-            settings.put("difficulty", "Personalisé");
+            App.settings.put("difficulty", "Personalisé");
         } else {
             sizeXSelector.setEnabled(false);
             sizeYSelector.setEnabled(false);
@@ -235,48 +248,60 @@ public class SettingsPanel extends javax.swing.JPanel {
                 sizeYSelector.setValue(10);
                 mineNumberSelector.setValue(15);
 
-                settings.put("sizeX", "10");
-                settings.put("sizeY", "10");
-                settings.put("mines", "15");
-                settings.put("difficulty", "Facile");
+                App.settings.put("sizeX", "10");
+                App.settings.put("sizeY", "10");
+                App.settings.put("mines", "15");
+                App.settings.put("difficulty", "Facile");
                 break;
             case "Moyen":
                 sizeXSelector.setValue(15);
                 sizeYSelector.setValue(12);
                 mineNumberSelector.setValue(25);
 
-                settings.put("sizeX", "15");
-                settings.put("sizeY", "12");
-                settings.put("mines", "25");
-                settings.put("difficulty", "Moyen");
+                App.settings.put("sizeX", "15");
+                App.settings.put("sizeY", "12");
+                App.settings.put("mines", "25");
+                App.settings.put("difficulty", "Moyen");
                 break;
             case "Difficile":
                 sizeXSelector.setValue(20);
                 sizeYSelector.setValue(17);
                 mineNumberSelector.setValue(75);
 
-                settings.put("sizeX", "20");
-                settings.put("sizeY", "17");
-                settings.put("mines", "75");
-                settings.put("difficulty", "Difficile");
+                App.settings.put("sizeX", "20");
+                App.settings.put("sizeY", "17");
+                App.settings.put("mines", "75");
+                App.settings.put("difficulty", "Difficile");
                 break;
         }
     }//GEN-LAST:event_dificultySelectorActionPerformed
 
     private void gamemodeSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gamemodeSelectorActionPerformed
-        settings.put("gamemode", gamemodeSelector.getSelectedItem().toString());
+        App.settings.put("gamemode", gamemodeSelector.getSelectedItem().toString());
     }//GEN-LAST:event_gamemodeSelectorActionPerformed
 
-    private void loadSettings() {
-        settings = Preferences.userNodeForPackage(SettingsPanel.class);
-        try {
-            for (String key : settings.keys()) {
-                System.out.println(key + ": " + settings.get(key, null));
-            }
-        } catch (BackingStoreException ex) {
-            Logger.getLogger(SettingsPanel.class.getName()).log(Level.SEVERE, null, ex);
+    private void sizeXSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizeXSelectorStateChanged
+        if(App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+            App.settings.put("sizeX", sizeXSelector.getValue().toString());
         }
-    }
+    }//GEN-LAST:event_sizeXSelectorStateChanged
+
+    private void sizeYSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizeYSelectorStateChanged
+        if(App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+            App.settings.put("sizeY", sizeYSelector.getValue().toString());
+        }
+    }//GEN-LAST:event_sizeYSelectorStateChanged
+
+    private void mineNumberSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mineNumberSelectorStateChanged
+        if((int) mineNumberSelector.getValue() >= (int) sizeXSelector.getValue() * (int) sizeYSelector.getValue()) {
+            mineNumberSelector.setValue((int) sizeXSelector.getValue() * (int) sizeYSelector.getValue()-1);
+        }
+
+        if(App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+            App.settings.put("mines", mineNumberSelector.getValue().toString());
+        }
+    }//GEN-LAST:event_mineNumberSelectorStateChanged
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
