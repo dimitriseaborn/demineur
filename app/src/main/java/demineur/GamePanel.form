@@ -58,20 +58,12 @@
             <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.VerticalStrut"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.Box$Filler" name="filler2">
-          <Properties>
-            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[32767, 32767]"/>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.Glue"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JLabel" name="timeLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Temps:"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="mineLabel">
         </Component>
         <Component class="javax.swing.Box$Filler" name="filler3">
           <Properties>
@@ -87,16 +79,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Indice"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.Box$Filler" name="filler4">
-          <Properties>
-            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[32767, 32767]"/>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.Glue"/>
-          </AuxValues>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hintButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

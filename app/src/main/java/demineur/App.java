@@ -93,18 +93,28 @@ public class App {
     
     private static void loadSettings() {
         settings = Preferences.userNodeForPackage(App.class);
-        try {
-            for (String key : settings.keys()) {
-                System.out.println(key + ": " + settings.get(key, null));
-            }
-        } catch (BackingStoreException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //TODO: remove this
+//        try {
+//            for (String key : settings.keys()) {
+//                System.out.println(key + ": " + settings.get(key, null));
+//            }
+//        } catch (BackingStoreException ex) {
+//            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
     static void gameOver() {
-        System.out.println("game over");
-        gamePanel.gameOver();
+        if (!gamePanel.isOver) {
+            gamePanel.gameOver();
+            new YouLostDialog(mainWindow, true).setVisible(true);
+        }
+    }
+
+    static void gameWon(int time) {
+        if (!gamePanel.isOver) {
+            gamePanel.isOver = true;
+            new YouWonDialog(mainWindow, true, time).setVisible(true);
+        }
     }
     
     private static void loadFont() {

@@ -4,7 +4,10 @@
  */
 package demineur;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,6 +22,9 @@ public class GamePanel extends javax.swing.JPanel {
     private Case[][] grid;
     private int timerSecond;
     private ScheduledExecutorService timerExecutor;
+    private int mineNumber;
+    public boolean isOver = false;
+    public boolean isFirstMovePlayed = false;
 
     /**
      * Creates new form gamePannel
@@ -47,11 +53,10 @@ public class GamePanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         backButton = new javax.swing.JButton();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         timeLabel = new javax.swing.JLabel();
+        mineLabel = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         hintButton = new javax.swing.JButton();
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         gridPanel = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
@@ -70,15 +75,19 @@ public class GamePanel extends javax.swing.JPanel {
         });
         jPanel1.add(backButton);
         jPanel1.add(filler5);
-        jPanel1.add(filler2);
 
         timeLabel.setText("Temps:");
         jPanel1.add(timeLabel);
+        jPanel1.add(mineLabel);
         jPanel1.add(filler3);
 
         hintButton.setText("Indice");
+        hintButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hintButtonActionPerformed(evt);
+            }
+        });
         jPanel1.add(hintButton);
-        jPanel1.add(filler4);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -93,6 +102,10 @@ public class GamePanel extends javax.swing.JPanel {
         App.displayMainWindow();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void hintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintButtonActionPerformed
+        getHint();
+    }//GEN-LAST:event_hintButtonActionPerformed
+
     private void setupGrid(int sizeX, int sizeY, int mineNumber) {
         grid = new Case[sizeX][sizeY];
         //Setup grid with all 0
@@ -103,41 +116,41 @@ public class GamePanel extends javax.swing.JPanel {
         }
 
         //add mines randomly
+        this.mineNumber = mineNumber;
+        List<Case> caseList = new ArrayList<>();
+        for (Case[] row : grid) {
+            caseList.addAll(Arrays.asList(row));
+        }
+        Collections.shuffle(caseList);
         for (int i = 0; i < mineNumber;) {
-            int randomX = ThreadLocalRandom.current().nextInt(0, sizeX);
-            int randomY = ThreadLocalRandom.current().nextInt(0, sizeY);
-            if (grid[randomX][randomY].value != -1) {
-                grid[randomX][randomY].value = -1;
+            if (caseList.get(i).value != -1) {
+                caseList.get(i).value = -1;
                 i++;
             }
         }
 
         //set values of non mines
         Case current;
-        final int[] offsetX = {-1, 0, 1};
-        final int[] offsetY = {-1, 0, 1};
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
                 //for each case
                 current = grid[x][y];
                 int surroundingMines = 0;
                 if (!current.isMine()) {
-                    for (int xOffset : offsetX) {
-                        for (int yOffset : offsetY) {
-                            //for each surrounding case
-                            if (!(x + xOffset < 0 || x + xOffset >= sizeX || y + yOffset < 0 || y + yOffset >= sizeY)) {
-                                if (grid[x + xOffset][y + yOffset].isMine()) {
-                                    surroundingMines++;
-                                }
-                            }
+                    //for each surrounding case
+                    for (Case neighbour : getNeighbours(x, y)) {
+                        if (neighbour.isMine()) {
+                            surroundingMines++;
                         }
+
                     }
                     current.value = surroundingMines;
                     current.updateColor();
                 }
             }
         }
-        System.out.println(Arrays.deepToString(grid));
+        //TODO: remove this
+//        System.out.println(Arrays.deepToString(grid));
     }
     
     private void setupGUI(int sizeX, int sizeY) {
@@ -149,10 +162,30 @@ public class GamePanel extends javax.swing.JPanel {
                 gridPanel.add(grid[x][y].button);
             }
         }
+        
+        updateMineLeft();
     }
     
     public void reveal(int x, int y) {
         grid[x][y].reveal();
+    }
+    
+    public void revealAroundIfCompleted(int x, int y) {
+        int surroundingFlags = 0;
+        for (Case neighbour : getNeighbours(x, y)) {
+            if (neighbour.isFlagged) {
+                surroundingFlags++;
+            }
+        }
+        if (surroundingFlags == grid[x][y].value) {
+            for (Case neighbour : getNeighbours(x, y)) {
+                if (neighbour.isMine() && !neighbour.isFlagged) {
+                    App.gameOver();
+                } else {
+                    neighbour.reveal();
+                }
+            }
+        }
     }
 
     private void setupTimer() {
@@ -168,27 +201,180 @@ public class GamePanel extends javax.swing.JPanel {
     }
     
     public void gameOver() {
+        if (isOver) {
+            return;
+        }
         timerExecutor.shutdown();
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[0].length; y++) {
                 grid[x][y].reveal();
             }
         }
+        isOver = true;
     }
     
+    public void updateMineLeft() {
+        int numFlaggedMines = 0;
+        for (Case[] cases : grid) {
+            for (Case aCase : cases) {
+                if (aCase.isFlagged) {
+                    numFlaggedMines++;
+                }
+            }
+        }
+        mineLabel.setText("Mines: " + (mineNumber - numFlaggedMines));
+    }
+    
+    public void checkIfWon() {
+        if (isOver) {
+            return;
+        }
+        boolean hasCasesLeft = false;
+        for (Case[] columns : grid) {
+            if (hasCasesLeft) {
+                break;
+            }
+            for (Case aCase : columns) {
+                if (!aCase.isRevealed && !aCase.isMine()) {
+                    hasCasesLeft = true;
+                    break;
+                }
+            }
+        }
+        if (!hasCasesLeft) {
+            timerExecutor.shutdown();
+            App.gameWon(timerSecond);
+        }
+    }
+    
+    private void getHint() {
+        List<Case> caseList = new ArrayList<>();
+        for (Case[] row : grid) {
+            caseList.addAll(Arrays.asList(row));
+        }
+        Collections.shuffle(caseList);
+        for (Case randomCase : caseList) {
+            //For random cases
+            int numRevealedNeighbour = 0;
+            Case[] neighbourgs = getNeighbours(randomCase.coordX, randomCase.coordY);
+            for (Case neighbour : neighbourgs) {
+                if(neighbour.isRevealed) {
+                    numRevealedNeighbour++;
+                }
+            }
+            if(numRevealedNeighbour != 0 && !randomCase.isRevealed) {
+                randomCase.reveal();
+                randomCase.blink();
+                break;
+            }
+        }
+        checkIfWon();
+    }
+    
+    private Case[] getNeighbours(int x, int y) {
+        final int[] offsetX = {-1, 0, 1};
+        final int[] offsetY = {-1, 0, 1};
+        final List<Case> cases = new ArrayList<>();
+
+        for (int xOffset : offsetX) {
+            for (int yOffset : offsetY) {
+                //for each surrounding case
+                if (!(x + xOffset < 0 || x + xOffset >= grid.length || y + yOffset < 0 || y + yOffset >= grid[0].length)) {
+                    if (!(xOffset == 0 && yOffset == 0)) {
+                        cases.add(grid[x + xOffset][y + yOffset]);
+                    }
+                }
+            }
+        }
+        final Case[] casesArray = new Case[cases.size()];
+        for (int i = 0; i < cases.size(); i++) {
+            casesArray[i] = cases.get(i);
+        }
+        return casesArray;
+    }
+    
+    public void playFirstMove(int x, int y) {
+        isFirstMovePlayed = true;
+        if (!"classic".equals(App.settings.get("gamemode", "classic"))) {
+            grid[x][y].isRevealed = true;
+            makeNotMine(x, y);
+            for (Case neighbour : getNeighbours(x, y)) {
+                neighbour.isRevealed = true;   
+                makeNotMine(neighbour.coordX, neighbour.coordY);
+            }
+        }
+        grid[x][y].isRevealed = false;
+        for (Case neighbour : getNeighbours(x, y)) {
+            neighbour.isRevealed = false;
+        }
+        grid[x][y].clickCase();
+    }
+    
+    private void makeNotMine(int x, int y) {
+        System.out.println("qqq");
+        //FIXME: not working consistently when ridiculously high proportion of mine
+        Case oldCase = grid[x][y];
+        
+        if (oldCase.isMine()) {
+            int surroundingMines = 0;
+            for (Case neighbour : getNeighbours(x, y)) {
+                if (neighbour.isMine()) {
+                    surroundingMines++;
+                }
+            }
+            oldCase.value = surroundingMines;
+            oldCase.updateColor();
+            
+            List<Case> caseList = new ArrayList<>();
+            for (Case[] row : grid) {
+                caseList.addAll(Arrays.asList(row));
+            }
+            Collections.shuffle(caseList);
+            for (int i = 0; i < caseList.size(); i++) {
+                //For random cases
+                Case randomCase = caseList.get(i);
+                int numRevealedNeighbour = 0;
+                Case[] newCaseNeighbours = getNeighbours(randomCase.coordX, randomCase.coordY);
+                for (Case neighbour : newCaseNeighbours) {
+                    if (neighbour.isRevealed) {
+                        numRevealedNeighbour++;
+                    }
+                }
+                if (numRevealedNeighbour == 0 && !randomCase.isRevealed && !randomCase.isMine()) {
+                    //Player has no info on the case and it is not a mine
+                    randomCase.value = -1;
+                    randomCase.updateColor();
+                    //Update new mine neighbours
+                    for (Case neighbour : newCaseNeighbours) {
+                        if (!neighbour.isMine()) {
+                            neighbour.value++;
+                            neighbour.updateColor();
+                        }
+                    }
+                    //Update old mine neighbours
+                    for (Case neighbour : getNeighbours(oldCase.coordX, oldCase.coordY)) {
+                        if (!neighbour.isMine()) {
+                            neighbour.value--;
+                            neighbour.updateColor();
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.JPanel gridPanel;
     private javax.swing.JButton hintButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel mineLabel;
     private javax.swing.JLabel timeLabel;
     // End of variables declaration//GEN-END:variables
 

@@ -4,11 +4,18 @@
  */
 package demineur;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.sql.Time;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -23,9 +30,9 @@ public class Case {
     public boolean isRevealed;
     private final int gridSizeX;
     private final int gridSizeY;
-    private final int coordX;
-    private final int coordY;
-    private boolean isFlagged;
+    public final int coordX;
+    public final int coordY;
+    public boolean isFlagged;
 
     public Case(int coordX, int coordY, int value, int gridSizeX, int gridSizeY) {
         this.coordX = coordX;
@@ -60,15 +67,28 @@ public class Case {
         button.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         updateColor();
     }
-
+    
     private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        clickCase();
+    }
+
+    public void clickCase() {
         if (!this.isFlagged) {
-            if (this.isMine()) {
-                App.gameOver();
+            if (App.gamePanel.isFirstMovePlayed) {
+                if (this.isMine()) {
+                    App.gameOver();
+                } else {
+                    if (!this.isRevealed) {
+                        this.reveal();
+                    } else {
+                        App.gamePanel.revealAroundIfCompleted(this.coordX, this.coordY);
+                    }
+                }
             } else {
-                this.reveal();
+                App.gamePanel.playFirstMove(coordX, coordY);
             }
         }
+        App.gamePanel.checkIfWon();
     }
     
     private void buttonMouseClicked(java.awt.event.MouseEvent evt) {
@@ -99,6 +119,7 @@ public class Case {
                 }
             } else {
                 flag(true);
+                isRevealed = true;
             }
         }
     }
@@ -113,22 +134,25 @@ public class Case {
     }
 
     private void flag(boolean set) {
-        if (set && !isRevealed) {
-            button.setMargin(new Insets(0, 0, 0, 0));
-            ImageIcon icon = new ImageIcon(Case.class.getResource("flag.png"));
-            if (button.getHeight() < button.getWidth()) {
-                icon = resize(icon, button.getHeight(), button.getHeight());
+        if (!isRevealed) {
+            if (set) {
+                button.setMargin(new Insets(0, 0, 0, 0));
+                ImageIcon icon = new ImageIcon(Case.class.getResource("flag.png"));
+                if (button.getHeight() < button.getWidth()) {
+                    icon = resize(icon, button.getHeight(), button.getHeight());
+                } else {
+                    icon = resize(icon, button.getWidth(), button.getWidth());
+                }
+                button.setIcon(icon);
+                isFlagged = true;
             } else {
-                icon = resize(icon, button.getWidth(), button.getWidth());
+                button.setIcon(null);
+                isFlagged = false;
             }
-            button.setIcon(icon);
-            isFlagged = true;
-        } else {
-            button.setIcon(null);
-            isFlagged = false;
+            App.gamePanel.updateMineLeft();
         }
     }
-    
+
     public void updateColor() {
         switch (value) {
             case 0:
@@ -162,5 +186,25 @@ public class Case {
                 button.setForeground(new java.awt.Color(255, 255, 255));
                 break;
         }
+    }
+    
+    public void blink() {
+        Runnable setGreen = new Runnable() {
+            @Override
+            public void run() {
+                button.setBackground(new Color(50, 255, 75));
+            }
+        };
+        Runnable setDefault = new Runnable() {
+            @Override
+            public void run() {
+                button.setBackground(new Color(78, 80, 82));
+            }
+        };
+        ScheduledExecutorService colorExecutor = Executors.newScheduledThreadPool(1);
+        colorExecutor.schedule(setGreen, 0, TimeUnit.MILLISECONDS);
+        colorExecutor.schedule(setDefault, 500, TimeUnit.MILLISECONDS);
+        colorExecutor.schedule(setGreen, 1000, TimeUnit.MILLISECONDS);
+        colorExecutor.schedule(setDefault, 1500, TimeUnit.MILLISECONDS);
     }
 }
