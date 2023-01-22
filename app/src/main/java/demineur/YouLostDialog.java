@@ -19,7 +19,7 @@ public class YouLostDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         Rectangle parentBounds = parent.getBounds();
-        this.setBounds(parentBounds.x+50, parentBounds.y+50, Math.max(parentBounds.height-100, 200), Math.max(parentBounds.width-100, 200));
+        this.setBounds(parentBounds.x + 50, parentBounds.y + 50, Math.max(parentBounds.height - 100, 200), Math.max(parentBounds.width - 100, 200));
     }
 
     /**

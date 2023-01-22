@@ -4,13 +4,13 @@
  */
 package demineur;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -147,14 +147,16 @@ public class GamePanel extends javax.swing.JPanel {
                     current.value = surroundingMines;
                     current.updateColor();
                 }
+                //TODO: remove this
+                current.updateColor();
             }
         }
         //TODO: remove this
 //        System.out.println(Arrays.deepToString(grid));
     }
-    
+
     private void setupGUI(int sizeX, int sizeY) {
-        
+
         gridPanel.setLayout(new java.awt.GridLayout(sizeX, sizeY, 0, 0));
 
         for (int x = 0; x < sizeX; x++) {
@@ -162,14 +164,14 @@ public class GamePanel extends javax.swing.JPanel {
                 gridPanel.add(grid[x][y].button);
             }
         }
-        
+
         updateMineLeft();
     }
-    
+
     public void reveal(int x, int y) {
         grid[x][y].reveal();
     }
-    
+
     public void revealAroundIfCompleted(int x, int y) {
         int surroundingFlags = 0;
         for (Case neighbour : getNeighbours(x, y)) {
@@ -192,14 +194,14 @@ public class GamePanel extends javax.swing.JPanel {
         Runnable updateTimer = new Runnable() {
             @Override
             public void run() {
-                timeLabel.setText("Temps: "+timerSecond);
+                timeLabel.setText("Temps: " + timerSecond);
                 timerSecond++;
             }
         };
         timerExecutor = Executors.newScheduledThreadPool(1);
         timerExecutor.scheduleAtFixedRate(updateTimer, 0, 1, TimeUnit.SECONDS);
     }
-    
+
     public void gameOver() {
         if (isOver) {
             return;
@@ -212,7 +214,7 @@ public class GamePanel extends javax.swing.JPanel {
         }
         isOver = true;
     }
-    
+
     public void updateMineLeft() {
         int numFlaggedMines = 0;
         for (Case[] cases : grid) {
@@ -224,7 +226,7 @@ public class GamePanel extends javax.swing.JPanel {
         }
         mineLabel.setText("Mines: " + (mineNumber - numFlaggedMines));
     }
-    
+
     public void checkIfWon() {
         if (isOver) {
             return;
@@ -246,7 +248,7 @@ public class GamePanel extends javax.swing.JPanel {
             App.gameWon(timerSecond);
         }
     }
-    
+
     private void getHint() {
         List<Case> caseList = new ArrayList<>();
         for (Case[] row : grid) {
@@ -256,21 +258,25 @@ public class GamePanel extends javax.swing.JPanel {
         for (Case randomCase : caseList) {
             //For random cases
             int numRevealedNeighbour = 0;
-            Case[] neighbourgs = getNeighbours(randomCase.coordX, randomCase.coordY);
+            Case[] neighbourgs = getNeighbours(randomCase);
             for (Case neighbour : neighbourgs) {
-                if(neighbour.isRevealed) {
+                if (neighbour.isRevealed) {
                     numRevealedNeighbour++;
                 }
             }
-            if(numRevealedNeighbour != 0 && !randomCase.isRevealed) {
+            if (numRevealedNeighbour != 0 && !randomCase.isRevealed) {
                 randomCase.reveal();
-                randomCase.blink();
+                randomCase.blink(new Color(50, 255, 75));
                 break;
             }
         }
         checkIfWon();
     }
-    
+
+    public Case[] getNeighbours(Case aCase) {
+        return getNeighbours(aCase.coordX, aCase.coordY);
+    }
+
     private Case[] getNeighbours(int x, int y) {
         final int[] offsetX = {-1, 0, 1};
         final int[] offsetY = {-1, 0, 1};
@@ -292,39 +298,34 @@ public class GamePanel extends javax.swing.JPanel {
         }
         return casesArray;
     }
-    
+
     public void playFirstMove(int x, int y) {
         isFirstMovePlayed = true;
         if (!"classic".equals(App.settings.get("gamemode", "classic"))) {
             grid[x][y].isRevealed = true;
             makeNotMine(x, y);
             for (Case neighbour : getNeighbours(x, y)) {
-                neighbour.isRevealed = true;   
+//                neighbour.isRevealed = true;   
                 makeNotMine(neighbour.coordX, neighbour.coordY);
             }
         }
         grid[x][y].isRevealed = false;
-        for (Case neighbour : getNeighbours(x, y)) {
-            neighbour.isRevealed = false;
-        }
+//        for (Case neighbour : getNeighbours(x, y)) {
+//            neighbour.isRevealed = false;
+//        }
         grid[x][y].clickCase();
     }
-    
+
+    public void makeNotMine(Case aCase) {
+        makeNotMine(aCase.coordX, aCase.coordY);
+    }
+
     private void makeNotMine(int x, int y) {
-        System.out.println("qqq");
         //FIXME: not working consistently when ridiculously high proportion of mine
         Case oldCase = grid[x][y];
-        
+
         if (oldCase.isMine()) {
-            int surroundingMines = 0;
-            for (Case neighbour : getNeighbours(x, y)) {
-                if (neighbour.isMine()) {
-                    surroundingMines++;
-                }
-            }
-            oldCase.value = surroundingMines;
-            oldCase.updateColor();
-            
+
             List<Case> caseList = new ArrayList<>();
             for (Case[] row : grid) {
                 caseList.addAll(Arrays.asList(row));
@@ -334,7 +335,7 @@ public class GamePanel extends javax.swing.JPanel {
                 //For random cases
                 Case randomCase = caseList.get(i);
                 int numRevealedNeighbour = 0;
-                Case[] newCaseNeighbours = getNeighbours(randomCase.coordX, randomCase.coordY);
+                Case[] newCaseNeighbours = getNeighbours(randomCase);
                 for (Case neighbour : newCaseNeighbours) {
                     if (neighbour.isRevealed) {
                         numRevealedNeighbour++;
@@ -342,26 +343,173 @@ public class GamePanel extends javax.swing.JPanel {
                 }
                 if (numRevealedNeighbour == 0 && !randomCase.isRevealed && !randomCase.isMine()) {
                     //Player has no info on the case and it is not a mine
-                    randomCase.value = -1;
-                    randomCase.updateColor();
-                    //Update new mine neighbours
-                    for (Case neighbour : newCaseNeighbours) {
-                        if (!neighbour.isMine()) {
-                            neighbour.value++;
-                            neighbour.updateColor();
-                        }
-                    }
-                    //Update old mine neighbours
-                    for (Case neighbour : getNeighbours(oldCase.coordX, oldCase.coordY)) {
-                        if (!neighbour.isMine()) {
-                            neighbour.value--;
-                            neighbour.updateColor();
-                        }
-                    }
+                    swap(oldCase, randomCase);
                     break;
                 }
             }
         }
+    }
+
+    public Case canBeDeduced(Case aCase) {
+        return canBeDeduced(aCase.coordX, aCase.coordY);
+    }
+
+    public Case canBeDeduced(int x, int y) {
+
+        //If revealed, return
+        if (grid[x][y].isRevealed) {
+            return null;
+        }
+        Case[] neighbourgs = getNeighbours(x, y);
+        List<Case> infoAvailable = new ArrayList<>();
+        Case swappableWith = null;
+
+        //Check what info we have on the mine
+        for (Case neighbourg : neighbourgs) {
+            if (neighbourg.isRevealed && !neighbourg.isMine()) {
+                infoAvailable.add(neighbourg);
+            }
+        }
+
+        /*Check if all info is also applicable to another case up to 2 tile away for cases like this:
+        *  ?|X|X
+        *  -----
+        *  X|7|X
+        *  -----
+        *  X|X|?
+         */
+        for (Case neighbour1 : neighbourgs) {
+            for (Case neighbour2 : getNeighbours(neighbour1)) {
+                if (!neighbour2.isRevealed) {
+                    List<Case> neighbourInfoAvailable = new ArrayList<>();
+
+                    //Check what info the neighbour has
+                    for (Case neighbourNeighbour : getNeighbours(neighbour2)) {
+                        //If the neigbour is a mine, it gives no info
+                        if (neighbourNeighbour.isRevealed && !neighbourNeighbour.isMine()) {
+                            neighbourInfoAvailable.add(neighbourNeighbour);
+                        }
+                    }
+
+                    //if all the info we have on the case can also apply to another case, it can't be deduced if the two cases are not of the same type
+                    if (neighbourInfoAvailable.equals(infoAvailable)) {
+                        if (neighbour2.isMine() != grid[x][y].isMine()) {
+                            swappableWith = neighbour2;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return swappableWith;
+    }
+
+    public void swap(Case case1, Case case2) {
+        Case[] case1Neighbours = getNeighbours(case1);
+        Case[] case2Neighbours = getNeighbours(case2);
+        int case1Value = case1.value;
+
+        if (case2.isMine()) {
+            case1.value = -1;
+        } else {
+            int case1NeighbourMines = 0;
+            for (Case neighbour1 : case1Neighbours) {
+                if (neighbour1.isMine()) {
+                    case1NeighbourMines++;
+                }
+            }
+            case1.value = case1NeighbourMines;
+            case1.updateColor();
+        }
+
+        if (case1Value == -1) {
+            case2.value = -1;
+        } else {
+            int case2NeighbourMines = 0;
+            for (Case neighbour2 : case2Neighbours) {
+                if (neighbour2.isMine()) {
+                    case2NeighbourMines++;
+                }
+            }
+            case2.value = case2NeighbourMines;
+            case2.updateColor();
+        }
+
+        //Update case 1 neighbours
+        for (Case neighbour : case1Neighbours) {
+            if (!neighbour.isMine()) {
+                int caseNeighbourMines = 0;
+                for (Case neighbour1 : getNeighbours(neighbour)) {
+                    if (neighbour1.isMine()) {
+                        caseNeighbourMines++;
+                    }
+                }
+                neighbour.value = caseNeighbourMines;
+                neighbour.updateColor();
+            }
+        }
+        //Update case 2 neighbours
+        for (Case neighbour : case2Neighbours) {
+            if (!neighbour.isMine()) {
+                int caseNeighbourMines = 0;
+                for (Case neighbour1 : getNeighbours(neighbour)) {
+                    if (neighbour1.isMine()) {
+                        caseNeighbourMines++;
+                    }
+                }
+                neighbour.value = caseNeighbourMines;
+                neighbour.updateColor();
+            }
+        }
+
+        //TODO: remove this?
+        if (App.settings.get("debugMode", "Désactivé").equals("Activé")) {
+            case1.blink(new Color(0, 0, 255));
+            case2.blink(new Color(255, 0, 0));
+        }
+    }
+
+    public boolean isMoveRandom(Case caseClicked) {
+        List<Case> borderCases = new ArrayList<>();
+        boolean isNextMoveRandom = true;
+        List<Case> caseBlock = new ArrayList<>();
+        boolean blockComplete = false;
+
+        caseBlock.add(caseClicked);
+        while (!blockComplete) {
+            boolean changed = false;
+            for (Case aCase : new ArrayList<>(caseBlock)) {
+                for (Case neighbour : getNeighbours(aCase)) {
+                    if (!neighbour.isRevealed && !caseBlock.contains(neighbour)) {
+                        caseBlock.add(neighbour);
+                        changed = true;
+                    }
+                }
+            }
+            if (!changed) {
+                blockComplete = true;
+            }
+        }
+
+        for (Case aCase : caseBlock) {
+            for (Case neighbour : getNeighbours(aCase)) {
+                if (neighbour.isRevealed) {
+                    borderCases.add(aCase);
+                    break;
+                }
+            }
+        }
+
+        for (Case borderCase : borderCases) {
+            //Check if not a mine because mines can't be properly revealed
+            if (!borderCase.isMine() && canBeDeduced(borderCase) == null && !borderCase.isRevealed) {
+                System.out.println("d");
+                isNextMoveRandom = false;
+                break;
+            }
+        }
+
+        return isNextMoveRandom;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

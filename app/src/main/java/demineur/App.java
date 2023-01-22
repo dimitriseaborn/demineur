@@ -21,30 +21,32 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
+
     private static SettingsPanel settingsPanel;
     private static MainMenuPanel mainMenuPanel;
     static GamePanel gamePanel;
-    
+
     static Preferences settings;
 
-    static JFrame mainWindow = new JFrame("Démineur");
+    static JFrame mainWindow;
 
     public static void main(String[] args) {
-        
+        mainWindow = new JFrame("Démineur");
+
         // Set cross-platform Java L&F (also called "Metal")
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         loadSettings();
         //TODO: decide if I want to use a custom font
 //        loadFont();
-        
+
         mainMenuPanel = new MainMenuPanel();
         settingsPanel = new SettingsPanel();
-        
+
         // schedule this for the event dispatch thread (edt)
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -61,7 +63,6 @@ public class App {
                 }
                 mainWindow.setVisible(true);
 
-
                 displayMainWindow();
 
             }
@@ -75,34 +76,34 @@ public class App {
         mainWindow.repaint();
 
     }
-    
+
     static void displaySettingsWindow() {
-        
+
         mainWindow.setContentPane(settingsPanel);
         mainWindow.revalidate();
         mainWindow.repaint();
 
     }
-    
+
     static void displayGameWindow(int sizeX, int sizeY, int mineNumber) {
         gamePanel = new GamePanel(sizeX, sizeY, mineNumber);
         mainWindow.setContentPane(gamePanel);
         mainWindow.revalidate();
         mainWindow.repaint();
     }
-    
+
     private static void loadSettings() {
         settings = Preferences.userNodeForPackage(App.class);
         //TODO: remove this
-//        try {
-//            for (String key : settings.keys()) {
-//                System.out.println(key + ": " + settings.get(key, null));
-//            }
-//        } catch (BackingStoreException ex) {
-//            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            for (String key : settings.keys()) {
+                System.out.println(key + ": " + settings.get(key, null));
+            }
+        } catch (BackingStoreException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     static void gameOver() {
         if (!gamePanel.isOver) {
             gamePanel.gameOver();
@@ -116,7 +117,7 @@ public class App {
             new YouWonDialog(mainWindow, true, time).setVisible(true);
         }
     }
-    
+
     private static void loadFont() {
         //TODO: create custom font
         try {

@@ -105,7 +105,6 @@ public class MainMenuPanel extends javax.swing.JPanel {
         System.exit(0);
     }//GEN-LAST:event_quitButtonActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.Box.Filler filler1;

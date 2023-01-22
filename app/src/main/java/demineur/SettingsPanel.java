@@ -7,8 +7,6 @@ package demineur;
 import java.awt.GraphicsEnvironment;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 /**
  *
@@ -31,6 +29,7 @@ public class SettingsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         titlePanel = new javax.swing.JPanel();
@@ -44,24 +43,30 @@ public class SettingsPanel extends javax.swing.JPanel {
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         gamemodeLabel = new javax.swing.JLabel();
         gamemodeSelector = new javax.swing.JComboBox<>();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         displayLabel = new javax.swing.JLabel();
         displayButton = new javax.swing.JButton();
-        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         dificultyLabel = new javax.swing.JLabel();
         dificultySelector = new javax.swing.JComboBox<>();
-        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         sizeLabel = new javax.swing.JLabel();
         sizeSelectorPanel = new javax.swing.JPanel();
         sizeXLabel = new javax.swing.JLabel();
-        sizeXSelector = new javax.swing.JSpinner();
-        sizeYLabel = new javax.swing.JLabel();
         sizeYSelector = new javax.swing.JSpinner();
+        sizeYLabel = new javax.swing.JLabel();
+        sizeXSelector = new javax.swing.JSpinner();
         mineNumberLabel = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        debugButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         mineNumberSelector = new javax.swing.JSpinner();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
         setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(500, 400));
@@ -74,9 +79,13 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         buttonsPanel.setMinimumSize(new java.awt.Dimension(500, 400));
         buttonsPanel.setPreferredSize(new java.awt.Dimension(500, 400));
-        buttonsPanel.setLayout(new java.awt.GridLayout(5, 4, 25, 25));
+        java.awt.GridBagLayout buttonsPanelLayout = new java.awt.GridBagLayout();
+        buttonsPanelLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        buttonsPanelLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        buttonsPanel.setLayout(buttonsPanelLayout);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(72, 23));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         backButton.setText("Retour");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -84,17 +93,59 @@ public class SettingsPanel extends javax.swing.JPanel {
                 backButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(backButton);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel1.add(backButton, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel1.add(filler2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel1.add(filler3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel1.add(filler4, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel1.add(filler5, gridBagConstraints);
 
-        buttonsPanel.add(jPanel1);
-        buttonsPanel.add(filler2);
-        buttonsPanel.add(filler3);
-        buttonsPanel.add(filler4);
-        buttonsPanel.add(filler5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.1;
+        buttonsPanel.add(jPanel1, gridBagConstraints);
 
         gamemodeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         gamemodeLabel.setText("Mode de jeu");
-        buttonsPanel.add(gamemodeLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(gamemodeLabel, gridBagConstraints);
 
         gamemodeSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Classique", "Premier coup", "Pure logique" }));
         gamemodeSelector.addActionListener(new java.awt.event.ActionListener() {
@@ -103,29 +154,47 @@ public class SettingsPanel extends javax.swing.JPanel {
             }
         });
         gamemodeSelector.setSelectedItem(App.settings.get("gamemode", "Classique"));
-        buttonsPanel.add(gamemodeSelector);
-        buttonsPanel.add(filler6);
-        buttonsPanel.add(filler7);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(gamemodeSelector, gridBagConstraints);
 
         displayLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         displayLabel.setText("Affichage");
-        buttonsPanel.add(displayLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(displayLabel, gridBagConstraints);
 
-        displayButton.setText("Fenêtre");
-        displayButton.setLabel(App.settings.get("displayMode", "Fenêtre")
-        );
+        displayButton.setText(App.settings.get("displayMode", "Fenêtre"));
         displayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 displayButtonActionPerformed(evt);
             }
         });
-        buttonsPanel.add(displayButton);
-        buttonsPanel.add(filler10);
-        buttonsPanel.add(filler14);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(displayButton, gridBagConstraints);
 
         dificultyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dificultyLabel.setText("Difficulté");
-        buttonsPanel.add(dificultyLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(dificultyLabel, gridBagConstraints);
 
         dificultySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facile", "Moyen", "Difficile", "Personalisé" }));
         dificultySelector.addActionListener(new java.awt.event.ActionListener() {
@@ -134,18 +203,67 @@ public class SettingsPanel extends javax.swing.JPanel {
             }
         });
         dificultySelector.setSelectedItem(App.settings.get("difficulty", "Facile"));
-        buttonsPanel.add(dificultySelector);
-        buttonsPanel.add(filler11);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(dificultySelector, gridBagConstraints);
 
         sizeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sizeLabel.setText("Dimensions");
-        buttonsPanel.add(sizeLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(sizeLabel, gridBagConstraints);
 
-        sizeSelectorPanel.setLayout(new java.awt.GridLayout(2, 2, 0, 5));
+        java.awt.GridBagLayout sizeSelectorPanelLayout = new java.awt.GridBagLayout();
+        sizeSelectorPanelLayout.columnWidths = new int[] {0, 5, 0};
+        sizeSelectorPanelLayout.rowHeights = new int[] {0, 5, 0};
+        sizeSelectorPanel.setLayout(sizeSelectorPanelLayout);
 
         sizeXLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sizeXLabel.setText("x");
-        sizeSelectorPanel.add(sizeXLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 15;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.5;
+        sizeSelectorPanel.add(sizeXLabel, gridBagConstraints);
+
+        sizeYSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        sizeYSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé"));
+        sizeYSelector.setValue(App.settings.getInt("sizeY", 10)
+        );
+        sizeYSelector.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sizeYSelectorStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.7;
+        gridBagConstraints.weighty = 0.5;
+        sizeSelectorPanel.add(sizeYSelector, gridBagConstraints);
+
+        sizeYLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sizeYLabel.setText("y");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 15;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.5;
+        sizeSelectorPanel.add(sizeYLabel, gridBagConstraints);
 
         sizeXSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         sizeXSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé")
@@ -157,30 +275,75 @@ public class SettingsPanel extends javax.swing.JPanel {
                 sizeXSelectorStateChanged(evt);
             }
         });
-        sizeSelectorPanel.add(sizeXSelector);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.7;
+        gridBagConstraints.weighty = 0.5;
+        sizeSelectorPanel.add(sizeXSelector, gridBagConstraints);
 
-        sizeYLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        sizeYLabel.setText("y");
-        sizeSelectorPanel.add(sizeYLabel);
-
-        sizeYSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        sizeYSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé"));
-        sizeYSelector.setValue(App.settings.getInt("sizeY", 10)
-        );
-        sizeYSelector.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sizeYSelectorStateChanged(evt);
-            }
-        });
-        sizeSelectorPanel.add(sizeYSelector);
-
-        buttonsPanel.add(sizeSelectorPanel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(sizeSelectorPanel, gridBagConstraints);
 
         mineNumberLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mineNumberLabel.setText("Nombre de mines");
-        buttonsPanel.add(mineNumberLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(mineNumberLabel, gridBagConstraints);
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jLabel2.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
+        jLabel2.setText("Mode Déboggage");
+        jLabel2.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est déplacé vers une autre case (rouge) dans le mode pure logique ou premier coup.");
+        jPanel4.add(jLabel2);
+
+        java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
+        jPanel3Layout.columnWidths = new int[] {0, 10, 0};
+        jPanel3Layout.rowHeights = new int[] {0};
+        jPanel3.setLayout(jPanel3Layout);
+
+        debugButton.setText(App.settings.get("debugMode", "Désactivé"));
+        debugButton.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est déplacé vers une autre case (rouge) dans le mode pure logique ou premier coup.");
+        debugButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                debugButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
+        jPanel3.add(debugButton, gridBagConstraints);
+
+        jLabel3.setText("?");
+        jLabel3.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est déplacé vers une autre case (rouge) dans le mode pure logique ou premier coup.");
+        jLabel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(jLabel3, gridBagConstraints);
+
+        jPanel4.add(jPanel3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(jPanel4, gridBagConstraints);
+
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         mineNumberSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         mineNumberSelector.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -192,9 +355,68 @@ public class SettingsPanel extends javax.swing.JPanel {
                 mineNumberSelectorStateChanged(evt);
             }
         });
-        jPanel2.add(mineNumberSelector, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.5;
+        jPanel5.add(mineNumberSelector, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.5;
+        jPanel5.add(filler1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.5;
+        jPanel5.add(filler8, gridBagConstraints);
 
-        buttonsPanel.add(jPanel2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.2;
+        buttonsPanel.add(jPanel5, gridBagConstraints);
+
+        jLabel4.setText("?");
+        jLabel4.setToolTipText("Séléctionne la difficulté entre facile, moyen, difficile et personalisé");
+        jLabel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        buttonsPanel.add(jLabel4, gridBagConstraints);
+
+        jLabel5.setText("?");
+        jLabel5.setToolTipText("Change entre l'affichage plein écran et fenêtre");
+        jLabel5.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        buttonsPanel.add(jLabel5, gridBagConstraints);
+
+        jLabel6.setText("?");
+        jLabel6.setToolTipText("Classique: Une grille générée totalement au hasard\nPremier coup: Classique mais la première case révélée est assuré d'être un 0\nPure logique: Élimine les situations où de la chance est requise pour compléter la grille");
+        jLabel6.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        buttonsPanel.add(jLabel6, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        buttonsPanel.add(filler6, gridBagConstraints);
 
         add(buttonsPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -281,51 +503,65 @@ public class SettingsPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_gamemodeSelectorActionPerformed
 
     private void sizeXSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizeXSelectorStateChanged
-        if(App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+        if (App.settings.get("difficulty", "Facile").equals("Personalisé")) {
             App.settings.put("sizeX", sizeXSelector.getValue().toString());
         }
     }//GEN-LAST:event_sizeXSelectorStateChanged
 
     private void sizeYSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizeYSelectorStateChanged
-        if(App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+        if (App.settings.get("difficulty", "Facile").equals("Personalisé")) {
             App.settings.put("sizeY", sizeYSelector.getValue().toString());
         }
     }//GEN-LAST:event_sizeYSelectorStateChanged
 
     private void mineNumberSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mineNumberSelectorStateChanged
-        if((int) mineNumberSelector.getValue() >= (int) sizeXSelector.getValue() * (int) sizeYSelector.getValue()) {
-            mineNumberSelector.setValue((int) sizeXSelector.getValue() * (int) sizeYSelector.getValue()-1);
+        if ((int) mineNumberSelector.getValue() >= (int) sizeXSelector.getValue() * (int) sizeYSelector.getValue()) {
+            mineNumberSelector.setValue((int) sizeXSelector.getValue() * (int) sizeYSelector.getValue() - 1);
         }
 
-        if(App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+        if (App.settings.get("difficulty", "Facile").equals("Personalisé")) {
             App.settings.put("mines", mineNumberSelector.getValue().toString());
         }
     }//GEN-LAST:event_mineNumberSelectorStateChanged
 
-
+    private void debugButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugButtonActionPerformed
+        if (debugButton.getText().equals("Désactivé")) {
+            debugButton.setText("Activé");
+            App.settings.put("debugMode", "Activé");
+        } else {
+            debugButton.setText("Désactivé");
+            App.settings.put("debugMode", "Désactivé");
+        }
+    }//GEN-LAST:event_debugButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JButton debugButton;
     private javax.swing.JLabel dificultyLabel;
     private javax.swing.JComboBox<String> dificultySelector;
     private javax.swing.JButton displayButton;
     private javax.swing.JLabel displayLabel;
-    private javax.swing.Box.Filler filler10;
-    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler13;
-    private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
-    private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
     private javax.swing.JLabel gamemodeLabel;
     private javax.swing.JComboBox<String> gamemodeSelector;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel mineNumberLabel;
     private javax.swing.JSpinner mineNumberSelector;
     private javax.swing.JLabel sizeLabel;

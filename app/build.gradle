@@ -9,11 +9,17 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    // Apply GraalVM Native Image plugin
+    //id 'org.graalvm.buildtools.native' version '0.9.19'
+    //self contained packaging
+    id 'org.beryx.jlink' version '2.23.6'
 }
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -30,9 +36,22 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'demineur.App'
+    mainModule = 'app'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+jlink {
+    //moduleName = application.mainModule
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher{
+        name = 'Démineur'
+    }
+}
+
+compileJava {
+    options.compilerArgs << '-Xlint:deprecation'
 }
