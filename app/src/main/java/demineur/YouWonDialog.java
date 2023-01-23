@@ -18,9 +18,10 @@ public class YouWonDialog extends javax.swing.JDialog {
     public YouWonDialog(java.awt.Frame parent, boolean modal, int time) {
         super(parent, modal);
         initComponents();
-        congratsMessage.setText("Vous avex complété le niveau en " + time + " secondes.");
+        congratsMessage.setText("Vous avex complete le niveau en " + time + " secondes.");
         Rectangle parentBounds = parent.getBounds();
-        this.setBounds(parentBounds.x + 50, parentBounds.y + 50, Math.max(parentBounds.height - 100, 200), Math.max(parentBounds.width - 100, 200));
+        int dimension = Math.max((Math.min(parentBounds.width, parentBounds.height) - 200), 350);
+        this.setBounds((parentBounds.width - dimension) / 2 + parentBounds.x, (parentBounds.height - dimension) / 2 + parentBounds.y, dimension, dimension);
     }
 
     /**
@@ -42,12 +43,12 @@ public class YouWonDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
-        setPreferredSize(new java.awt.Dimension(300, 300));
+        setMinimumSize(new java.awt.Dimension(350, 350));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Félicitation!");
+        jLabel1.setText("Felicitation!");
         jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setLayout(new java.awt.BorderLayout());

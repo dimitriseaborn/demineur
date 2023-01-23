@@ -15,6 +15,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  *
@@ -61,8 +63,26 @@ public class Case {
                 buttonMouseClicked(evt);
             }
         });
+        button.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent evt) {
+                buttonResized(evt);
+            }
+        });
         button.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         updateColor();
+    }
+
+    private void buttonResized(java.awt.event.ComponentEvent evt) {
+        if (isFlagged) {
+            ImageIcon icon = new ImageIcon(Case.class.getResource("flag.png"));
+            if (button.getHeight() < button.getWidth()) {
+                icon = resize(icon, button.getHeight(), button.getHeight());
+            } else {
+                icon = resize(icon, button.getWidth(), button.getWidth());
+            }
+            button.setIcon(icon);
+        }
     }
 
     private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,12 +93,10 @@ public class Case {
         if (!this.isFlagged) {
             if ("Pure logique".equals(App.settings.get("gamemode", "Classique")) && App.gamePanel.isMoveRandom(this)) {
                 Case swapConcurrent = App.gamePanel.canBeDeduced(this);
-                System.out.println("This move is random");
                 //If to do nothing when all border cases are 50/50 and a middle case is clicked
                 if (isMine()) {
                     if (swapConcurrent != null) {
                         App.gamePanel.swap(this, swapConcurrent);
-                        System.out.println("Swapped " + coordY + "," + coordX + " with " + swapConcurrent.coordY + "," + swapConcurrent.coordX + " because of random");
                     } else {
                         //This either not random or a case we have no info on
                         if (App.gamePanel.getNeighbours(this).length == 0) {
@@ -113,8 +131,8 @@ public class Case {
     public void reveal() {
         if (!isRevealed) {
             if (!isMine()) {
-                isRevealed = true;
                 flag(false);
+                isRevealed = true;
                 button.setText(String.valueOf(this.value));
                 button.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
@@ -132,7 +150,6 @@ public class Case {
                 }
             } else {
                 flag(true);
-                isRevealed = true;
             }
         }
     }
@@ -146,7 +163,7 @@ public class Case {
         return new ImageIcon(bi);
     }
 
-    private void flag(boolean set) {
+    public void flag(boolean set) {
         if (!isRevealed) {
             if (set) {
                 button.setMargin(new Insets(0, 0, 0, 0));
@@ -167,9 +184,7 @@ public class Case {
     }
 
     public void updateColor() {
-        //TODO: remove this
-        //button.setText(String.valueOf(value));
-        //
+
         switch (value) {
             case 0:
                 button.setForeground(new java.awt.Color(78, 80, 82));

@@ -31,7 +31,7 @@ public class App {
     static JFrame mainWindow;
 
     public static void main(String[] args) {
-        mainWindow = new JFrame("Démineur");
+        mainWindow = new JFrame("Demineur");
 
         // Set cross-platform Java L&F (also called "Metal")
         try {
@@ -41,8 +41,6 @@ public class App {
         }
 
         loadSettings();
-        //TODO: decide if I want to use a custom font
-//        loadFont();
 
         mainMenuPanel = new MainMenuPanel();
         settingsPanel = new SettingsPanel();
@@ -56,7 +54,7 @@ public class App {
                 mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 mainWindow.setMinimumSize(new Dimension(500, 500));
                 //set fullscreen if last saved
-                if ("Plein écran".equals(settings.get("displayMode", "Fenêtre"))) {
+                if ("Plein ecran".equals(settings.get("displayMode", "Fenetre"))) {
                     GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(mainWindow);
                 } else {
                     mainWindow.pack();
@@ -94,14 +92,6 @@ public class App {
 
     private static void loadSettings() {
         settings = Preferences.userNodeForPackage(App.class);
-        //TODO: remove this
-        try {
-            for (String key : settings.keys()) {
-                System.out.println(key + ": " + settings.get(key, null));
-            }
-        } catch (BackingStoreException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     static void gameOver() {
@@ -116,16 +106,5 @@ public class App {
             gamePanel.isOver = true;
             new YouWonDialog(mainWindow, true, time).setVisible(true);
         }
-    }
-
-    private static void loadFont() {
-        //TODO: create custom font
-        try {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(App.class.getResource("font.tff").toURI())));
-        } catch (FontFormatException | IOException | URISyntaxException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 }

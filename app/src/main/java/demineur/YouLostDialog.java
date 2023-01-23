@@ -19,7 +19,8 @@ public class YouLostDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         Rectangle parentBounds = parent.getBounds();
-        this.setBounds(parentBounds.x + 50, parentBounds.y + 50, Math.max(parentBounds.height - 100, 200), Math.max(parentBounds.width - 100, 200));
+        int dimension = Math.max((Math.min(parentBounds.width, parentBounds.height) - 200), 350);
+        this.setBounds((parentBounds.width - dimension) / 2 + parentBounds.x, (parentBounds.height - dimension) / 2 + parentBounds.y, dimension, dimension);
     }
 
     /**
@@ -39,6 +40,7 @@ public class YouLostDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
+        setMinimumSize(new java.awt.Dimension(350, 350));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 

@@ -27,7 +27,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="D&#xe9;mineur"/>
+            <Property name="text" type="java.lang.String" value="Demineur"/>
           </Properties>
         </Component>
       </SubComponents>

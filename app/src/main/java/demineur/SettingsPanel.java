@@ -72,7 +72,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(500, 400));
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Démineur");
+        jLabel1.setText("Demineur");
         titlePanel.add(jLabel1);
 
         add(titlePanel, java.awt.BorderLayout.PAGE_START);
@@ -172,7 +172,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.2;
         buttonsPanel.add(displayLabel, gridBagConstraints);
 
-        displayButton.setText(App.settings.get("displayMode", "Fenêtre"));
+        displayButton.setText(App.settings.get("displayMode", "Fenetre"));
         displayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 displayButtonActionPerformed(evt);
@@ -187,7 +187,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(displayButton, gridBagConstraints);
 
         dificultyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        dificultyLabel.setText("Difficulté");
+        dificultyLabel.setText("Difficulte");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
@@ -196,7 +196,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.2;
         buttonsPanel.add(dificultyLabel, gridBagConstraints);
 
-        dificultySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facile", "Moyen", "Difficile", "Personalisé" }));
+        dificultySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facile", "Moyen", "Difficile", "Personalise" }));
         dificultySelector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dificultySelectorActionPerformed(evt);
@@ -238,7 +238,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         sizeSelectorPanel.add(sizeXLabel, gridBagConstraints);
 
         sizeYSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        sizeYSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé"));
+        sizeYSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalise"));
         sizeYSelector.setValue(App.settings.getInt("sizeY", 10)
         );
         sizeYSelector.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -266,7 +266,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         sizeSelectorPanel.add(sizeYLabel, gridBagConstraints);
 
         sizeXSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        sizeXSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé")
+        sizeXSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalise")
         );
         sizeXSelector.setValue(App.settings.getInt("sizeX", 10)
         );
@@ -302,8 +302,8 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(mineNumberLabel, gridBagConstraints);
 
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
-        jLabel2.setText("Mode Déboggage");
-        jLabel2.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est déplacé vers une autre case (rouge) dans le mode pure logique ou premier coup.");
+        jLabel2.setText("Mode Deboggage");
+        jLabel2.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est deplace vers une autre case (rouge) dans le mode pure logique ou premier coup.\n(Pour tester le mode pure logique, une grille etroite et longue [ex: 3x10] maximise le nombre de situations où le deplacement d'une mine est necessaire)");
         jPanel4.add(jLabel2);
 
         java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
@@ -311,8 +311,8 @@ public class SettingsPanel extends javax.swing.JPanel {
         jPanel3Layout.rowHeights = new int[] {0};
         jPanel3.setLayout(jPanel3Layout);
 
-        debugButton.setText(App.settings.get("debugMode", "Désactivé"));
-        debugButton.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est déplacé vers une autre case (rouge) dans le mode pure logique ou premier coup.");
+        debugButton.setText(App.settings.get("debugMode", "Desactive"));
+        debugButton.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est deplace vers une autre case (rouge) dans le mode pure logique ou premier coup.\n(Pour tester le mode pure logique, une grille etroite et longue [ex: 3x10] maximise le nombre de situations où le deplacement d'une mine est necessaire)");
         debugButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 debugButtonActionPerformed(evt);
@@ -325,7 +325,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         jPanel3.add(debugButton, gridBagConstraints);
 
         jLabel3.setText("?");
-        jLabel3.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est déplacé vers une autre case (rouge) dans le mode pure logique ou premier coup.");
+        jLabel3.setToolTipText("Active le clignotement des cases lorsqu'une mine (bleu) est deplace vers une autre case (rouge) dans le mode pure logique ou premier coup.\n(Pour tester le mode pure logique, une grille etroite et longue [ex: 3x10] maximise le nombre de situations où le deplacement d'une mine est necessaire)");
         jLabel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -347,7 +347,7 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         mineNumberSelector.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         mineNumberSelector.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        mineNumberSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalisé"));
+        mineNumberSelector.setEnabled(App.settings.get("difficulty", "Facile").equals("Personalise"));
         mineNumberSelector.setValue(App.settings.getInt("mines", 15)
         );
         mineNumberSelector.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -386,7 +386,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(jPanel5, gridBagConstraints);
 
         jLabel4.setText("?");
-        jLabel4.setToolTipText("Séléctionne la difficulté entre facile, moyen, difficile et personalisé");
+        jLabel4.setToolTipText("Selectionne la difficulte entre facile, moyen, difficile et personalise");
         jLabel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
@@ -395,7 +395,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(jLabel4, gridBagConstraints);
 
         jLabel5.setText("?");
-        jLabel5.setToolTipText("Change entre l'affichage plein écran et fenêtre");
+        jLabel5.setToolTipText("Change entre l'affichage plein ecran et fenetre");
         jLabel5.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
@@ -404,7 +404,7 @@ public class SettingsPanel extends javax.swing.JPanel {
         buttonsPanel.add(jLabel5, gridBagConstraints);
 
         jLabel6.setText("?");
-        jLabel6.setToolTipText("Classique: Une grille générée totalement au hasard\nPremier coup: Classique mais la première case révélée est assuré d'être un 0\nPure logique: Élimine les situations où de la chance est requise pour compléter la grille");
+        jLabel6.setToolTipText("Classique: Une grille generee totalement au hasard\nPremier coup: Classique mais la premiere case revelee est assure d'etre un 0\nPure logique: Elimine les situations où de la chance est requise pour completer la grille");
         jLabel6.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
@@ -423,9 +423,9 @@ public class SettingsPanel extends javax.swing.JPanel {
 
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
         switch (displayButton.getText()) {
-            case "Plein écran":
-                App.settings.put("displayMode", "Fenêtre");
-                displayButton.setText("Fenêtre");
+            case "Plein ecran":
+                App.settings.put("displayMode", "Fenetre");
+                displayButton.setText("Fenetre");
                 GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(null);
                 // Add a delay because otherwise the comportement seems unstable
                 try {
@@ -438,9 +438,9 @@ public class SettingsPanel extends javax.swing.JPanel {
 
                 break;
 
-            case "Fenêtre":
-                App.settings.put("displayMode", "Plein écran");
-                displayButton.setText("Plein écran");
+            case "Fenetre":
+                App.settings.put("displayMode", "Plein ecran");
+                displayButton.setText("Plein ecran");
                 GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(App.mainWindow);
                 break;
         }
@@ -452,11 +452,11 @@ public class SettingsPanel extends javax.swing.JPanel {
 
     private void dificultySelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dificultySelectorActionPerformed
         String selectedDifficulty = dificultySelector.getSelectedItem().toString();
-        if ("Personalisé".equals(selectedDifficulty)) {
+        if ("Personalise".equals(selectedDifficulty)) {
             sizeXSelector.setEnabled(true);
             sizeYSelector.setEnabled(true);
             mineNumberSelector.setEnabled(true);
-            App.settings.put("difficulty", "Personalisé");
+            App.settings.put("difficulty", "Personalise");
         } else {
             sizeXSelector.setEnabled(false);
             sizeYSelector.setEnabled(false);
@@ -503,13 +503,13 @@ public class SettingsPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_gamemodeSelectorActionPerformed
 
     private void sizeXSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizeXSelectorStateChanged
-        if (App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+        if (App.settings.get("difficulty", "Facile").equals("Personalise")) {
             App.settings.put("sizeX", sizeXSelector.getValue().toString());
         }
     }//GEN-LAST:event_sizeXSelectorStateChanged
 
     private void sizeYSelectorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizeYSelectorStateChanged
-        if (App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+        if (App.settings.get("difficulty", "Facile").equals("Personalise")) {
             App.settings.put("sizeY", sizeYSelector.getValue().toString());
         }
     }//GEN-LAST:event_sizeYSelectorStateChanged
@@ -519,18 +519,18 @@ public class SettingsPanel extends javax.swing.JPanel {
             mineNumberSelector.setValue((int) sizeXSelector.getValue() * (int) sizeYSelector.getValue() - 1);
         }
 
-        if (App.settings.get("difficulty", "Facile").equals("Personalisé")) {
+        if (App.settings.get("difficulty", "Facile").equals("Personalise")) {
             App.settings.put("mines", mineNumberSelector.getValue().toString());
         }
     }//GEN-LAST:event_mineNumberSelectorStateChanged
 
     private void debugButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugButtonActionPerformed
-        if (debugButton.getText().equals("Désactivé")) {
-            debugButton.setText("Activé");
-            App.settings.put("debugMode", "Activé");
+        if (debugButton.getText().equals("Desactive")) {
+            debugButton.setText("Active");
+            App.settings.put("debugMode", "Active");
         } else {
-            debugButton.setText("Désactivé");
-            App.settings.put("debugMode", "Désactivé");
+            debugButton.setText("Desactive");
+            App.settings.put("debugMode", "Desactive");
         }
     }//GEN-LAST:event_debugButtonActionPerformed
 

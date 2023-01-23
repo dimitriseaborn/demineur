@@ -47,7 +47,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Démineur");
+        jLabel1.setText("Demineur");
         titlePanel.add(jLabel1);
 
         add(titlePanel, java.awt.BorderLayout.PAGE_START);

@@ -5,6 +5,9 @@
 package demineur;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -104,6 +108,8 @@ public class GamePanel extends javax.swing.JPanel {
 
     private void hintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintButtonActionPerformed
         getHint();
+        hintButton.setIcon(resize(new ImageIcon(GamePanel.class.getResource("lightbulb.png")), hintButton.getWidth(), hintButton.getHeight()));
+
     }//GEN-LAST:event_hintButtonActionPerformed
 
     private void setupGrid(int sizeX, int sizeY, int mineNumber) {
@@ -147,12 +153,8 @@ public class GamePanel extends javax.swing.JPanel {
                     current.value = surroundingMines;
                     current.updateColor();
                 }
-                //TODO: remove this
-                current.updateColor();
             }
         }
-        //TODO: remove this
-//        System.out.println(Arrays.deepToString(grid));
     }
 
     private void setupGUI(int sizeX, int sizeY) {
@@ -166,6 +168,17 @@ public class GamePanel extends javax.swing.JPanel {
         }
 
         updateMineLeft();
+    }
+
+    private static ImageIcon resize(ImageIcon imageIcon, int newWidth, int newHeight) {
+        newWidth = Math.min(newHeight, newHeight);
+        newHeight = Math.min(newHeight, newHeight);
+        BufferedImage bi = new BufferedImage(newWidth, newHeight, BufferedImage.TRANSLUCENT);
+        Graphics2D g2d = bi.createGraphics();
+        g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+        g2d.drawImage(imageIcon.getImage(), 0, 0, newWidth, newHeight, null);
+        g2d.dispose();
+        return new ImageIcon(bi);
     }
 
     public void reveal(int x, int y) {
@@ -184,6 +197,7 @@ public class GamePanel extends javax.swing.JPanel {
                 if (neighbour.isMine() && !neighbour.isFlagged) {
                     App.gameOver();
                 } else {
+                    neighbour.flag(false);
                     neighbour.reveal();
                 }
             }
@@ -301,7 +315,7 @@ public class GamePanel extends javax.swing.JPanel {
 
     public void playFirstMove(int x, int y) {
         isFirstMovePlayed = true;
-        if (!"classic".equals(App.settings.get("gamemode", "classic"))) {
+        if (!"Classique".equals(App.settings.get("gamemode", "Classique"))) {
             grid[x][y].isRevealed = true;
             makeNotMine(x, y);
             for (Case neighbour : getNeighbours(x, y)) {
@@ -462,8 +476,7 @@ public class GamePanel extends javax.swing.JPanel {
             }
         }
 
-        //TODO: remove this?
-        if (App.settings.get("debugMode", "Désactivé").equals("Activé")) {
+        if (App.settings.get("debugMode", "Desactive").equals("Active")) {
             case1.blink(new Color(0, 0, 255));
             case2.blink(new Color(255, 0, 0));
         }
@@ -503,7 +516,6 @@ public class GamePanel extends javax.swing.JPanel {
         for (Case borderCase : borderCases) {
             //Check if not a mine because mines can't be properly revealed
             if (!borderCase.isMine() && canBeDeduced(borderCase) == null && !borderCase.isRevealed) {
-                System.out.println("d");
                 isNextMoveRandom = false;
                 break;
             }
