@@ -77,11 +77,16 @@
         </Component>
         <Component class="javax.swing.JButton" name="hintButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Indice"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 0, 0, 0]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hintButtonActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="hintButton.addComponentListener(new ComponentAdapter() {&#xa;    public void componentResized(ComponentEvent componentEvent) {&#xa;            ImageIcon icon = new ImageIcon(Case.class.getResource(&quot;lightbulb.png&quot;));&#xa;            if (hintButton.getHeight() &lt; hintButton.getWidth()) {&#xa;                icon = resize(icon, hintButton.getHeight()-2, hintButton.getHeight()-2);&#xa;            } else {&#xa;                icon = resize(icon, hintButton.getWidth()-2, hintButton.getWidth()-2);&#xa;            }&#xa;            hintButton.setIcon(icon);&#xa;}&#xa;});"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

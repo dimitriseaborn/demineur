@@ -7,6 +7,8 @@ package demineur;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,10 +87,21 @@ public class GamePanel extends javax.swing.JPanel {
         jPanel1.add(mineLabel);
         jPanel1.add(filler3);
 
-        hintButton.setText("Indice");
+        hintButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
         hintButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hintButtonActionPerformed(evt);
+            }
+        });
+        hintButton.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                ImageIcon icon = new ImageIcon(Case.class.getResource("lightbulb.png"));
+                if (hintButton.getHeight() < hintButton.getWidth()) {
+                    icon = resize(icon, hintButton.getHeight()-2, hintButton.getHeight()-2);
+                } else {
+                    icon = resize(icon, hintButton.getWidth()-2, hintButton.getWidth()-2);
+                }
+                hintButton.setIcon(icon);
             }
         });
         jPanel1.add(hintButton);
@@ -108,7 +121,6 @@ public class GamePanel extends javax.swing.JPanel {
 
     private void hintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintButtonActionPerformed
         getHint();
-        hintButton.setIcon(resize(new ImageIcon(GamePanel.class.getResource("lightbulb.png")), hintButton.getWidth(), hintButton.getHeight()));
 
     }//GEN-LAST:event_hintButtonActionPerformed
 
@@ -280,6 +292,7 @@ public class GamePanel extends javax.swing.JPanel {
             }
             if (numRevealedNeighbour != 0 && !randomCase.isRevealed) {
                 randomCase.reveal();
+                randomCase.isRevealed = true;
                 randomCase.blink(new Color(50, 255, 75));
                 break;
             }

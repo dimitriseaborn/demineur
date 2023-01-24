@@ -18,7 +18,7 @@ public class YouWonDialog extends javax.swing.JDialog {
     public YouWonDialog(java.awt.Frame parent, boolean modal, int time) {
         super(parent, modal);
         initComponents();
-        congratsMessage.setText("Vous avex complete le niveau en " + time + " secondes.");
+        congratsMessage.setText("Vous avez complete le niveau en " + time + " secondes.");
         Rectangle parentBounds = parent.getBounds();
         int dimension = Math.max((Math.min(parentBounds.width, parentBounds.height) - 200), 350);
         this.setBounds((parentBounds.width - dimension) / 2 + parentBounds.x, (parentBounds.height - dimension) / 2 + parentBounds.y, dimension, dimension);
